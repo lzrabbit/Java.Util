@@ -1,4 +1,4 @@
-package com.cnblogs.lzrabbit.util;
+package cn.lzrabbit.util;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -7,28 +7,39 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.Properties;
 
 import org.omg.CORBA.portable.OutputStream;
 
 public class FileUtil {
-	public static String read(String file) throws Exception {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		StringBuilder sb = new StringBuilder();
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			sb.append(line);
+	public static String read(String file) {
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+			}
+			reader.close();
+			return sb.toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
 		}
-		reader.close();
-		return sb.toString();
 	}
 
-	public static void save(String file, String content) throws Exception {
-		FileWriter writer = new FileWriter(file);
-		writer.write(content);
-		writer.close();
+	public static void save(String file, String content) {
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write(content);
+			writer.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	/**
@@ -42,18 +53,26 @@ public class FileUtil {
 		else return path;
 	}
 
-	public static Properties loadPropertyFile(String file) throws Exception {
-		FileInputStream fis = new FileInputStream(file);
-		Properties prop = new Properties();
-		prop.load(fis);
-		fis.close();
-		return prop;
+	public static Properties loadPropertyFile(String file) {
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			Properties prop = new Properties();
+			prop.load(fis);
+			fis.close();
+			return prop;
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
-	public static void savePropertyFile(Properties prop, String file) throws Exception {
-		FileOutputStream fos = new FileOutputStream(file);
-		prop.store(fos, null);
-		fos.close();
+	public static void savePropertyFile(Properties prop, String file) {
+		try {
+			FileOutputStream fos = new FileOutputStream(file);
+			prop.store(fos, null);
+			fos.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	/**
@@ -85,6 +104,11 @@ public class FileUtil {
 			classpath = classpath.substring(0, index) + "WebRoot/WEB-INF/";
 		}
 
+		try {
+			classpath = URLDecoder.decode(classpath, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 		return classpath;
 	}
 

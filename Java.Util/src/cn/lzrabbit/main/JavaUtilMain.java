@@ -1,8 +1,8 @@
-package com.cnblogs.lzrabbit.main;
+package cn.lzrabbit.main;
 
 import java.lang.reflect.ParameterizedType;
 
-import com.cnblogs.lzrabbit.util.HttpUtil;
+import cn.lzrabbit.util.HttpUtil;
 
 public class JavaUtilMain {
 

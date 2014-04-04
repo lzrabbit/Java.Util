@@ -1,4 +1,4 @@
-package com.cnblogs.lzrabbit.util;
+package cn.lzrabbit.util;
 
 import java.util.Collection;
 
