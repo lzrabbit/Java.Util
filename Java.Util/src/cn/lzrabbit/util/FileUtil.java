@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -37,6 +39,21 @@ public class FileUtil {
 			FileWriter writer = new FileWriter(file);
 			writer.write(content);
 			writer.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	public static String read(InputStream in, String charset) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			String line;
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in, charset));
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+			}
+			reader.close();
+			return sb.toString();
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage());
 		}
