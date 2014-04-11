@@ -58,6 +58,10 @@ public class FileUtil {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+	public static boolean exists(String path) {
+		File file=new File(path);
+		return file.exists();
+	}
 
 	/**
 	 * 获取classpath根目录
